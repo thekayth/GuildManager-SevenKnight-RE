@@ -10,6 +10,8 @@ import easyocr
 from thefuzz import process
 from PIL import Image
 from datetime import datetime
+import matplotlib.font_manager as fm
+import os
 
 # ==========================================
 # 1. GLOBAL SETUP & CONFIG
@@ -17,8 +19,21 @@ from datetime import datetime
 st.set_page_config(page_title="MeAndBro Guild All-in-One", layout="wide")
 
 # ตั้งค่า Font กราฟ
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['Tahoma', 'Arial Unicode MS', 'sans-serif']
+# ==========================================
+# [แก้ใหม่] โหลดฟอนต์ภาษาไทยจากไฟล์
+# ==========================================
+font_file_name = "NotoSansThai-Regular.ttf" 
+
+if os.path.exists(font_file_name):
+    # เพิ่มฟอนต์เข้าไปในระบบของ Matplotlib
+    fm.fontManager.addfont(font_file_name)
+    # ดึงชื่อฟอนต์จริงๆ ออกมา
+    prop = fm.FontProperties(fname=font_file_name)
+    plt.rcParams['font.family'] = prop.get_name()
+else:
+    # ถ้าหาไฟล์ไม่เจอ ให้ใช้ฟอนต์สำรอง
+    plt.rcParams['font.family'] = 'sans-serif'
+    st.warning(f"⚠️ ไม่พบไฟล์ฟอนต์ {font_file_name} ภาษาไทยอาจแสดงผลไม่ถูกต้อง")
 
 # โหลด EasyOCR
 @st.cache_resource
