@@ -10,6 +10,7 @@ from thefuzz import process
 from PIL import Image
 import gspread
 from google.oauth2.service_account import Credentials
+import matplotlib.font_manager as fm
 
 # ==========================================
 # 1. GLOBAL SETUP & CONFIG
@@ -17,7 +18,16 @@ from google.oauth2.service_account import Credentials
 st.set_page_config(page_title="MeAndBro Guild Manager", layout="wide")
 
 # ตั้งค่า Font กราฟ (รองรับภาษาไทย)
-plt.rcParams['font.family'] = 'sans-serif'
+# ตั้งค่า Font กราฟ (รองรับภาษาไทย)
+font_path = './NotoSansThai-Regular.ttf'
+fe = fm.FontEntry(
+    fname=font_path,
+    name='NotoSansThai'
+)
+fm.fontManager.ttflist.insert(0, fe)
+plt.rcParams['font.family'] = fe.name
+
+# บรรทัดนี้ให้ลบออกหรือใส่ # ไว้ครับ เพื่อป้องกันความสับสนของ Library
 plt.rcParams['font.sans-serif'] = ['Tahoma', 'Sarabun', 'Arial Unicode MS', 'DejaVu Sans', 'sans-serif']
 
 # รายชื่อบอส (หัวตาราง)
