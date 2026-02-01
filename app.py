@@ -273,8 +273,10 @@ def generate_and_download_images(growth_df=None):
     fig1, ax1 = plt.subplots(figsize=(10, max(5, len(df) * 0.45)))
     bars = ax1.barh(df_sorted["ชื่อสมาชิก"].astype(str), df_sorted["Total Damage"], color='#2196F3', zorder=3)
     ax1.set_title(f"Ranking: {st.session_state.guild_name}", fontsize=14, fontweight='bold')
-    ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{x/1e6:.1f}M'))
-    ax1.grid(axis='x', linestyle='--', alpha=0.6, zorder=0)
+    ax1.set_xticks([]) # Remove x-axis numbers as requested
+    # ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{x/1e6:.1f}M'))
+    # ax1.xaxis.set_major_locator(ticker.MultipleLocator(1000000)) # 1M Interval
+    # ax1.grid(axis='x', linestyle='--', alpha=0.6, zorder=0) # Removed grid lines as requested
     
     for bar in bars:
         width = bar.get_width()
@@ -293,18 +295,23 @@ def generate_and_download_images(growth_df=None):
     # วนลูปสร้างกราฟแท่งทีละบอส โดยขยับแกน x ไปทีละนิด
     for i, day in enumerate(days_cols):
         ax2.bar(x + (i * width), df_desc[day], width, label=day, color=colors[i], zorder=3)
+
+    # เพิ่มเส้นคั่นระหว่างคน (Separator Lines)
+    for i in range(len(df_desc) - 1):
+        ax2.axvline(x=i + 0.85, color='gray', linestyle=':', alpha=0.5, zorder=1)
     
     # จัดตำแหน่งชื่อสมาชิกให้อยู่กึ่งกลางกลุ่มแท่งกราฟ     # (มี 7 บอส กึ่งกลางคือช่องที่ 3.5 -> width * 3)
     ax2.set_xticks(x + (width * 3))
     ax2.set_xticklabels(df_desc["ชื่อสมาชิก"].astype(str), rotation=45, ha='right', fontsize=10)
 
     # เพิ่มเส้นเกณฑ์ (Threshold Lines) แบบเก่า
-    ax2.axhline(y=2500000, color='red', linestyle='--', linewidth=1.5, label="2M กายภาพ", zorder=4)
-    ax2.axhline(y=1500000, color='#00BFFF', linestyle='--', linewidth=1.5, label="1M เวทย์", zorder=4)
+    ax2.axhline(y=2500000, color='red', linestyle='--', linewidth=1.5, label="2.5M กายภาพ", zorder=4)
+    ax2.axhline(y=1500000, color='#00BFFF', linestyle='--', linewidth=1.5, label="1.5M เวทย์", zorder=4)
 
     ax2.set_title(f"Damage Breakdown: {st.session_state.guild_name}", fontsize=14, fontweight='bold')
     ax2.legend()
     ax2.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, p: f'{x/1e6:.1f}M'))
+    ax2.yaxis.set_major_locator(ticker.MultipleLocator(1000000)) # 1M Interval
     ax2.grid(axis='y', linestyle='--', alpha=0.6, zorder=0)
     plt.tight_layout()
 
