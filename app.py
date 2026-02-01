@@ -299,8 +299,8 @@ def generate_and_download_images(growth_df=None):
     ax2.set_xticklabels(df_desc["ชื่อสมาชิก"].astype(str), rotation=45, ha='right', fontsize=10)
 
     # เพิ่มเส้นเกณฑ์ (Threshold Lines) แบบเก่า
-    ax2.axhline(y=2000000, color='red', linestyle='--', linewidth=1.5, label="2M กายภาพ", zorder=4)
-    ax2.axhline(y=1000000, color='#00BFFF', linestyle='--', linewidth=1.5, label="1M เวทย์", zorder=4)
+    ax2.axhline(y=2500000, color='red', linestyle='--', linewidth=1.5, label="2M กายภาพ", zorder=4)
+    ax2.axhline(y=1500000, color='#00BFFF', linestyle='--', linewidth=1.5, label="1M เวทย์", zorder=4)
 
     ax2.set_title(f"Damage Breakdown: {st.session_state.guild_name}", fontsize=14, fontweight='bold')
     ax2.legend()
